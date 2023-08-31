@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Git pre-commit hook for check code in the project for compliance PEP8/PEP257.
+#
+# How to use:
+#     copy this script to .git/hooks/ directory
+#     make this script executable
+#         chmod +x .git/hooks/pre-commit
+
+echo "Running pycodestyle..."
+pycodestyle . --exclude=venv --show-source --show-pep8 --count
+
+echo "Running pydocstyle..."
+pydocstyle . --count
+
+if [ $? -ne 0 ]; then
+    echo "Code style check failed."
+    exit 1
+fi
